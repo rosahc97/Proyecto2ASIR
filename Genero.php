@@ -13,9 +13,17 @@ class Genero{
 		return $this->tipo;
 	}
 
-	public function __construct($id, $tipo){
-		$this->id = $id;
-		$this->tipo = $tipo;
+	public static function Ver(){
+		$conexion = new Conexion();
+		$consulta = $conexion->prepare('SELECT * FROM ' . self::TABLA);
+		$consulta->execute();
+		$consulta->setFetchMode(PDO::FETCH_CLASS, 'Genero');
+		while ($res = $consulta->fetch()){
+			echo 'El id ' .$res->ID_GENERO. ' es un libro de ' .$res->TIPO."<br />";
+			echo '-------------------------------------- <br />';
+		}
+		
+		$conexion = null;
 	}
 
 	public static function ObtenerResultados(){

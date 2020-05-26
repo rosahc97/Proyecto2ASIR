@@ -34,8 +34,11 @@
 						<?php foreach($libros as $item): ?>
 							<li> <?php echo $item['CODIGO_LIBRO'] . ' - ' . $item['NOMBRE_LIBRO'] . ' - ' . $item['GENERO'] . ' - ' . $item['AUTOR'] . ' - ' . $item['EDITORIAL']; ?> </li>
 						<?php endforeach; ?>
-					</ul>	
-		  <?php }
+					</ul></br></br>
+					<?php 	
+					require_once 'Genero.php';
+					$generos = Genero::Ver();
+		        }
 		  		elseif(isset($_POST['Volver'])){
 		  			header('Location:./opciones.php');
 		  		}
