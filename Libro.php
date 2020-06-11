@@ -53,5 +53,15 @@ class Libro{
 		return $registros;
 	}
 
+	public static function ObtenerColumna(){
+		$conexion = new Conexion();
+		$consulta = $conexion->prepare('SELECT CODIGO_LIBRO FROM ' . self::TABLA);
+		$consulta->execute();
+		$registros = $consulta->fetchAll();
+		$conexion = null;
+		return $registros;
+	}
+
+
 }
 ?>

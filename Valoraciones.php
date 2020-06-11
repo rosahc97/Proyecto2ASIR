@@ -37,17 +37,6 @@ class Valoracion{
 		$this->opinion = $opinion;
 	}
 
-	public function insertar(){
-		$conexion = new Conexion();
-		$consulta = $conexion->prepare('INSERT INTO ' . self::TABLA .' (DNI_LECTOR, COD_LIBRO, VALORACION, OPINION) VALUES (:dnilector, :codigolibro, :valoracion, :opinion)');
-		$consulta->bindParam(':dnilector', $this->dnilector);
-		$consulta->bindParam(':codigolibro', $this->codigolibro);
-		$consulta->bindParam(':valoracion', $this->valoracion);
-		$consulta->bindParam(':opinion', $this->opinion);
-		$consulta->execute();
-		$conexion = null;
-	}
-
 	public function modificar(){
 		$conexion = new Conexion();
 		$consulta = $conexion->prepare('UPDATE ' . self::TABLA .' SET VALORACION = :valoracion, OPINION = :opinion WHERE COD_LIBRO = :codigolibro');
@@ -65,6 +54,29 @@ class Valoracion{
 		$registros = $consulta->fetchAll();
 		$conexion = null;
 		return $registros;
+	}
+
+	public function comprobar(){
+		$conexion = new Conexion();
+		$consulta = $conexion->prepare('SELECT * FROM ' .self::TABLA . ' WHERE COD_LIBRO = :codigolibro');
+		$consulta->bindParam(':codigolibro', $this->codigolibro);
+		$consulta->execute();
+		$registros = $consulta->fetchAll();
+		$conexion = null;
+		if ($registros == false){
+				$conexion = new Conexion();
+				$consulta = $conexion->prepare('INSERT INTO ' . self::TABLA . '(DNI_LECTOR, COD_LIBRO, VALORACION, OPINION) VALUES (:dnilector, :codigolibro, :valoracion, :opinion)');
+				$consulta->bindParam(':dnilector', $this->dnilector);
+				$consulta->bindParam(':codigolibro', $this->codigolibro);
+				$consulta->bindParam(':valoracion', $this->valoracion);
+				$consulta->bindParam(':opinion', $this->opinion);
+				$consulta->execute();
+				$conexion = null;
+				echo "Valoración nueva registrada";
+		}
+		else{
+			echo "Este libro ya había sido valorado y no se puede volver a valorar, si lo deseas puedes modificar su valoración";
+		}
 	}
 
 }

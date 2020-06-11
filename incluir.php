@@ -23,6 +23,10 @@
 					require_once 'Libro.php';
 					$libro = new Libro($codigo, $nombre, $genero, $autor, $editorial);
 					$libro->insertar();
+					echo "El libro ha sido registrado";
+					?>
+					<a href="incluir.php">Volver</a>
+					<?php
 	
 				}
 				elseif(isset($_POST['Ver'])){

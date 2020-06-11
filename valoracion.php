@@ -11,12 +11,14 @@
 					session_start();
 					$dnilector=$_SESSION['DNI'];
 					$codigolibro=(isset($_POST['CodigoLibro']))?($_POST['CodigoLibro']):'';
-					$valoracion=(isset($_POST['Valoracion']))?($_POST['Valoracion']):'';
+					$valor=(isset($_POST['Valoracion']))?($_POST['Valoracion']):'';
 					$opinion=(isset($_POST['Opinion']))?($_POST['Opinion']):'';
 					require_once 'Valoraciones.php';
-					$valoracion = new Valoracion($dnilector, $codigolibro, $valoracion, $opinion);
-					$valoracion->insertar();
-					header('Location:./valoracion.php');
+					$valoracion = new Valoracion($dnilector, $codigolibro, $valor, $opinion);
+					$valoracion->comprobar();
+					?>
+					<a href="valoracion.php">Continuar</a>
+					<?php
 				}
 				elseif(isset($_POST['Modificar'])){
 					session_start();
@@ -47,7 +49,14 @@
 		  		}
 		  		else { ?>
 					<form action="" method="post">
-						Código libro: <input type="text" name="CodigoLibro" /></br></br>
+						Código libro: <select name="CodigoLibro">
+							<?php
+							require_once 'Libro.php';
+							$codigos = Libro::ObtenerColumna();
+							foreach($codigos as $item): ?>
+								<option><?php echo $item['CODIGO_LIBRO']; ?></option>
+							<?php endforeach; ?>
+						</select></br></br>
 						Valoración:
 						<select name="Valoracion">
 							<?php

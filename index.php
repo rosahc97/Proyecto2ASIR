@@ -20,9 +20,12 @@
 				$dni=$_SESSION['DNI'];
 				require_once 'Lector.php';
 				$lector = new Lector($dni,$nombre,$apellido);
-				$lector->insertar();
-				header('Location:./opciones.php');
+				$lector->comprobar();
+				?>
+				<a href="opciones.php">Continuar</a>
+				<?php
 			}
+
 			elseif(isset($_POST['Eliminar'])){
 				$nombre=(isset($_POST['Nombre']))?($_POST['Nombre']):'';
 				$apellido=(isset($_POST['Apellido']))?($_POST['Apellido']):'';
@@ -30,6 +33,9 @@
 				require_once 'Lector.php';
 				$lector = new Lector($dni,$nombre,$apellido);
 				$lector->eliminar();
+				?>
+				<a href="index.php">Continuar</a>
+				<?php
 			}
 			else { ?>
 				<form action="" method="post">
